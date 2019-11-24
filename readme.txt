@@ -49,6 +49,11 @@ Standard installation required.
 
 == Changelog ==
 
+= 1.0.0 =
+* Recreating the plugin by deleting `Add Width` and `Add Height` taxonomy
+* Creating new taxonomy `Add Category`
+* Adding block for gutenberg
+
 = 0.0.9 =
 * Add two more options for the advertisment type
 
