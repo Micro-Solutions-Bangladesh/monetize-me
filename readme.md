@@ -5,10 +5,10 @@
 >We are also offering an widget `Monetize Me` to enable you to display your ads in the widget positions.
 
 ### 👉 `Installation`
->Standard installation required.
->>After downloading the 'monetize-me.zip' file extract/uncompress it.
->>Upload the Downloaded uncompress package to the '/wp-content/plugins/' directory.
->>Activate the plugin using the Plugin Tab in your Wordpress Dashboard.
+**Standard installation required.**
+1. After downloading the 'monetize-me.zip' file extract/uncompress it.
+2. Upload the Downloaded uncompress package to the '/wp-content/plugins/' directory.
+3. Activate the plugin using the Plugin Tab in your Wordpress Dashboard.
 
 ### 👉 `Start Using the Plugin`
 >You will find a menu item called 'Ads' in the admin left sidebar. Create new post of Ad post type. In ad post type you will see the following:
