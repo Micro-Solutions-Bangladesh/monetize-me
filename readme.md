@@ -1,8 +1,26 @@
-This project was bootstrapped with [Create Guten Block](https://github.com/ahmadawais/create-guten-block).
+**Monetize Me** WordPress plugin will help webmaster to manage monetize scripts and display using **gutenberg block** and **widgets**. 
 
-Below you will find some information on how to run scripts.
+>Initially the plugin offered **[mmps]** shortcode. Since WordPress 5.x does not recommend shortcode in post content we are now offering **Monetize Me** gutenberg block to monetize your article with an specific category choosen by you in the block settings panel. 
 
->You can find the most recent version of this guide [here](https://github.com/ahmadawais/create-guten-block).
+>We are also offering an widget `Monetize Me` to enable you to display your ads in the widget positions.
+
+### 👉 `Installation`
+>Standard installation required.
+>>After downloading the 'monetize-me.zip' file extract/uncompress it.
+>>Upload the Downloaded uncompress package to the '/wp-content/plugins/' directory.
+>>Activate the plugin using the Plugin Tab in your Wordpress Dashboard.
+
+### 👉 `Start Using the Plugin`
+>You will find a menu item called 'Ads' in the admin left sidebar. Create new post of Ad post type. In ad post type you will see the following:
+1. **Post Title:** This title have two use. 
+	1. Will helpfull for you and who are creating the ad to determine the specific ad.
+	2. The title will create a slug that will enable you to choose specific ad at gutenberg block and in widget.
+2. **Post Content:** Add your monetize scripts in here (for example: adsense ad script). Remember, one post on ad scripts is good practice.
+3. **Ad Category:** Create category of your ad to choose specific ad at gutenberg block and in widget. For example: 
+	1. 300x250 Image: So that you can understand that the ad size is 300px width and 250px height and it is an image type ad.
+	1. Horizontal Responsive: So that you can understand that the ad size is Horizontal Responsive.
+
+>We have used [Create Guten Block](https://github.com/ahmadawais/create-guten-block) initially to bootstrap the guten block section. Below you will find some information on how to run scripts.
 
 ## 👉  `npm start`
 - Use to compile and run the block in development mode.
@@ -12,14 +30,5 @@ Below you will find some information on how to run scripts.
 - Use to build production code for your block inside `dist` folder.
 - Runs once and reports back the gzip file sizes of the produced code.
 
-## 👉  `npm run eject`
-- Use to eject your plugin out of `create-guten-block`.
-- Provides all the configurations so you can customize the project as you want.
-- It's a one-way street, `eject` and you have to maintain everything yourself.
-- You don't normally have to `eject` a project because by ejecting you lose the connection with `create-guten-block` and from there onwards you have to update and maintain all the dependencies on your own.
 
----
-
-###### Feel free to tweet and say 👋 at me [@MrAhmadAwais](https://twitter.com/mrahmadawais/)
-
-[![npm](https://img.shields.io/npm/v/create-guten-block.svg?style=flat-square)](https://www.npmjs.com/package/create-guten-block) [![npm](https://img.shields.io/npm/dt/create-guten-block.svg?style=flat-square&label=downloads)](https://www.npmjs.com/package/create-guten-block)  [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://github.com/ahmadawais/create-guten-block) [![Tweet for help](https://img.shields.io/twitter/follow/mrahmadawais.svg?style=social&label=Tweet%20@MrAhmadAwais)](https://twitter.com/mrahmadawais/) [![GitHub stars](https://img.shields.io/github/stars/ahmadawais/create-guten-block.svg?style=social&label=Stars)](https://github.com/ahmadawais/create-guten-block/stargazers) [![GitHub followers](https://img.shields.io/github/followers/ahmadawais.svg?style=social&label=Follow)](https://github.com/ahmadawais?tab=followers)
+###### Feel free to tweet and say 👋 at me [@ShahAlom](https://twitter.com/shahalom_amin/) or, My startup [@MicroSolutionsBD](https://twitter.com/MicroSolutionsB)
