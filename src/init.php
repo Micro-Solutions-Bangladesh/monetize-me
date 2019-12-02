@@ -13,16 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-function monetize_me_render_serverside_handler($atts) {
-    return "<p>adCategory:  == sponsorType:  == postSlug: </p>";
-}
-
-
 /**
- * Enqueue Gutenberg block assets for frontend.
- *
- * @uses {wp-editor} for WP editor styles.
- * @since 1.0.0
+ * 
  */
 function monetize_me_frontent_assets() { // phpcs:ignore
 	// Register block styles for frontend.
@@ -39,7 +31,7 @@ function monetize_me_frontent_assets() { // phpcs:ignore
 add_action( 'enqueue_block_assets', 'monetize_me_frontent_assets' );
 
 /**
- * Enqueue Gutenberg block assets for backend editor.
+ * 
  *
  * @uses {wp-blocks} for block type registration & related functions.
  * @uses {wp-element} for WP Element abstraction — structure of blocks.
@@ -76,8 +68,6 @@ function monetize_me_editor_assets() { // phpcs:ignore
             'siteTagline' => get_bloginfo("description"),
             'siteUrl' => esc_url( get_site_url() ),
             'adCategoryValueLabelPairs' => get_ad_category_value_label_pairs(),
-			// 'pluginDirPath' => plugin_dir_path( __DIR__ ),
-			// 'pluginDirUrl'  => plugin_dir_url( __DIR__ ),
 		]
     );
     
@@ -98,18 +88,30 @@ add_action( 'enqueue_block_editor_assets', 'monetize_me_editor_assets' );
 function monetize_me_register_block_type() { // phpcs:ignore
     register_block_type(
         'monetize-me/shortcode-mmps-to-block', array(
-            'render_callback' => 'monetize_me_render_serberside_handler',
+            'render_callback' => 'monetize_me_gutenberg_serverside_handler',
             'attributes' => array(
-                'adCategory' => array(
-                    'default' => 23,
-                    'type' => 'integer',
+                'className' => array(
+                    'default' => '',
+                    'type' => 'string',
                 ),
-                'sponsorType' => array(
-                    'default' => 5,
-                    'type' => 'integer',
+                'adAlignment' => array(
+                    'default' => 'center-align',
+                    'type' => 'string',
+                ),
+                'adCategory' => array(
+                    'default' => '0',
+                    'type' => 'string',
                 ),
                 'postSlug' => array(
-                    'default' => 'post-slug',
+                    'default' => '',
+                    'type' => 'string',
+                ),
+                'limit' => array(
+                    'default' => '1',
+                    'type' => 'string',
+                ),
+                'isWrapper' => array(
+                    'default' => 'true',
                     'type' => 'string',
                 ),
             ),

@@ -13,15 +13,17 @@ import './style.scss';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-const { Fragment, createElement } = wp.element;
+const { Fragment } = wp.element;
+
+// const {
+// 	InspectorControls,
+// } = wp.blockEditor;
 
 const {
-	InspectorControls,
-} = wp.blockEditor;
-
-const {
-	PanelBody, SelectControl, ServerSideRender,
+	PanelBody, SelectControl, ServerSideRender, TextControl, ToggleControl,
 } = wp.components;
+
+const { InspectorControls } = wp.editor;
 
 /**
  *
@@ -48,36 +50,21 @@ registerBlockType( 'monetize-me/shortcode-mmps-to-block', {
 			default: 'center-align',
 		},
 		adCategory: { // Required
-			type: 'integer',
-			default: 0,
-		},
-		// adWidth: { // width: depricated in favor of ad_category
-		// 	type: 'string',
-		// 	default: '',
-		// },
-		// adHeight: { // height: depricated in favor of ad_category
-		// 	type: 'string',
-		// 	default: '',
-		// },
-		// adType: { // type: default is mix in shortcode
-		// 	type: 'string',
-		// 	default: '',
-		// },
-		sponsorType: { // stype:
 			type: 'string',
-			default: 'adsense',
+			default: '0',
 		},
-		// postSlug: {
-		// 	type: 'string',
-		// },
-		// limit: { // limit
-		// 	type: 'string',
-		// 	default: 1,
-		// },
-		// wrapper: { // wrapper:
-		// 	type: 'string',
-		// 	default: '1',
-		// },
+		postSlug: {
+			type: 'string',
+			default: '',
+		},
+		limit: { // limit
+			type: 'string',
+			default: '1',
+		},
+		isWrapper: { // wrapper:
+			type: 'string',
+			default: 'true',
+		},
 	},
 
 	/**
@@ -90,8 +77,8 @@ registerBlockType( 'monetize-me/shortcode-mmps-to-block', {
 	 * @returns {Mixed} JSX Component.
 	 */
 	edit: ( props ) => {
-		const { className, setAttributes, attributes } = props;
-		const { adAlignment, adCategory } = attributes;
+		const { setAttributes, attributes } = props;
+		const { adAlignment, adCategory, limit, postSlug, isWrapper } = attributes;
 
 		return (
 			<Fragment>
@@ -106,23 +93,39 @@ registerBlockType( 'monetize-me/shortcode-mmps-to-block', {
 							options={ getAdAlignmentValueLabelPairs() }
 							onChange={ adAlign => setAttributes( { adAlignment: adAlign } ) }
 						/>
-					</PanelBody>
-					<PanelBody title={ __( 'Ad Category' ) } initialOpen={ false }>
+
 						<SelectControl
 							label={ __( 'Ad Category' ) }
 							value={ adCategory }
 							options={ mmpConfigs.adCategoryValueLabelPairs }
 							onChange={ adCat => setAttributes( { adCategory: adCat } ) }
 						/>
+
+						<TextControl
+							label="Ad Slug"
+							value={ postSlug }
+							onChange={ ( pSlug ) => setAttributes( { postSlug: pSlug } ) }
+						/>
+
+						<TextControl
+							label="Ad Limit"
+							value={ limit }
+							onChange={ ( limitNo ) => setAttributes( { limit: limitNo } ) }
+						/>
+
+						<ToggleControl
+							label="Fixed Background"
+							help={ ( isWrapper === 'true' ) ? 'Use wrapper for Ad.' : 'No wrapper for Ad.' }
+							checked={ ( isWrapper === 'true' ) }
+							onChange={ ( wrapper ) => setAttributes( { isWrapper: ( ( wrapper ) ? 'true' : 'false' ) } ) }
+						/>
 					</PanelBody>
 				</InspectorControls>
 
-				<div className={ className }>
-					<ServerSideRender
-						block="monetize-me/shortcode-mmps-to-block"
-						attributes={ attributes }
-					/>
-				</div>
+                <ServerSideRender
+                    block="monetize-me/shortcode-mmps-to-block"
+                    attributes={ attributes }
+                />
 			</Fragment>
 		);
 	},
@@ -136,22 +139,7 @@ registerBlockType( 'monetize-me/shortcode-mmps-to-block', {
 	 * @param {Object} props Props.
 	 * @returns {Mixed} JSX Frontend HTML.
 	 */
-	save: ( props ) => {
-		return (
-			<div className={ props.className }>
-				<p>— Hello from the frontend.</p>
-				<p>
-					Monetize Me: <code>monetize-me</code> is a new Gutenberg block.
-				</p>
-				<p>
-					It was created via{ ' ' }
-					<code>
-						<a href="https://github.com/ahmadawais/create-guten-block">
-                            Monetize-Me
-						</a>
-					</code>.
-				</p>
-			</div>
-		);
+	save: () => {
+		return null;
 	},
 } );

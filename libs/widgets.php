@@ -2,55 +2,49 @@
 class Monetize_Me_Widget_Ads extends WP_Widget {
 
     function __construct() {
-        parent::__construct('monetize_me_ad_posts', __('Show Advertisement','monetize-me'), array('description' =>__('Display Ads','monetize-me') ));
+        parent::__construct('monetize-me', __('Monetize Me','monetize-me'), array('description' =>__('Display Ad(s) with Monetize Me','monetize-me') ));
     }
 
     function widget ($args, $instance) {
         extract($args);
         $instance = wp_parse_args( (array) $instance, array('title' => '', 'text' => '') );
 
+        $adCategory = ( ! empty( $instance['adCategory'] ) ) ? absint( $instance['adCategory'] ) : 0;
+        $adAlignment = isset($instance['adAlignment']) ? esc_attr($instance['adAlignment']) : '';
+        $adLimit = ( isset( $instance['adLimit'] ) ) ? absint( $instance['adLimit'] ) : 1;
+        $postSlug = isset($instance['postSlug']) ? esc_attr($instance['postSlug']) : '';
+        $className = isset($instance['className']) ? esc_attr($instance['className']) : '';
+        $wrapper = ( isset( $instance['wrapper'] ) ) ? absint( $instance['wrapper'] ) : 1;
+
         $title = esc_attr( $instance['title'] );
-        $slug = esc_attr( $instance['slug'] );
-        $stype = isset($instance['stype']) ? esc_attr($instance['stype']) : '';
-        $cclass = isset($instance['cclass']) ? esc_attr($instance['cclass']) : '';
-        $type = esc_attr( $instance['type'] );
-        $width = ( ! empty( $instance['width'] ) ) ? absint( $instance['width'] ) : 0;
-        $height = ( ! empty( $instance['height'] ) ) ? absint( $instance['height'] ) : 0;
-        $number = ( intval( $instance['number'] ) > 0 ) ? intval( $instance['number'] ) : 1;
-
-        $title = ( ! empty( $instance['title'] ) ) ? $instance['title'] : '';
-        $title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
-
+        
         echo  $before_widget;
 
-        if ($title) {
+        if( ! empty( $title ) ) {
+            $title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
             echo  $before_title . $title . $after_title;
         }
 
         $shortcode_attrs = '';
 
-        if(!empty($slug)) {
+        if( ! empty( $slug ) ) {
             $shortcode_attrs = '[mmps id="'.$slug.'"]';
-        } else if (!empty($type) && !empty($width) && !empty($height)) {
-            $shortcode_attrs = '[mmps width="'.$width.'" height="'.$height.'" type="'.$type.'" limit="'.$number.'"';
+        } else {
+            $shortcode_attrs = '[mmps adcategory="'.$adCategory.'" limit="'.$adLimit.'" wrapper="'.$wrapper.'"';
 
-            if (!empty($stype)) {
-                $shortcode_attrs .= ' stype="'.$stype.'"';
+            if ( ! empty( $adAlignment ) ) {
+                $shortcode_attrs .= ' adalignment="'.$adAlignment.'"';
             }
 
-            if (!empty($cclass)) {
-                $shortcode_attrs .= ' class="'.$cclass.'"';
+            if ( ! empty( $className ) ) {
+                $shortcode_attrs .= ' classname="'.$className.'"';
             }
 
             $shortcode_attrs .= ']';
         }
 
-        //echo '<div class="required-attr-not-found">'.$shortcode_attrs.'</div>';
-
-        if (!empty($shortcode_attrs)) {
-            echo do_shortcode($shortcode_attrs);
-        } else {
-            echo '<div class="required-attr-not-found"></div>';
+        if( ! empty( $shortcode_attrs ) ) {
+            echo do_shortcode( $shortcode_attrs );
         }
 
         echo  $after_widget;
@@ -63,14 +57,12 @@ class Monetize_Me_Widget_Ads extends WP_Widget {
     function update( $new_instance, $old_instance ) {
         $instance = $old_instance;
         $instance['title'] = strip_tags($new_instance['title']);
-        $instance['slug'] = strip_tags($new_instance['slug']);
-        $instance['type'] = strip_tags($new_instance['type']);
-        $instance['stype'] = strip_tags($new_instance['stype']);
-        $instance['cclass'] = strip_tags($new_instance['cclass']);
-
-        $instance['width'] = (int) $new_instance['width'];
-        $instance['height'] = (int) $new_instance['height'];
-        $instance['number'] = (int) $new_instance['number'];
+        $instance['adCategory'] = intval( strip_tags($new_instance['adCategory']) );
+        $instance['adAlignment'] = strip_tags($new_instance['adAlignment']);
+        $instance['adLimit'] = (int) $new_instance['adLimit'];
+        $instance['postSlug'] = strip_tags($new_instance['postSlug']);
+        $instance['className'] = strip_tags($new_instance['className']);
+        $instance['wrapper'] = (int) $new_instance['wrapper'];
 
         return $instance;
     }
@@ -80,103 +72,86 @@ class Monetize_Me_Widget_Ads extends WP_Widget {
      */
     function form( $instance ) {
         $title     = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
-        $width    = isset( $instance['width'] ) ? absint( $instance['width'] ) : 0;
-        $height    = isset( $instance['height'] ) ? absint( $instance['height'] ) : 0;
-        $type    = isset( $instance['type'] ) ? esc_attr( $instance['type'] ) : '';
-        $stype    = isset( $instance['stype'] ) ? esc_attr( $instance['stype'] ) : '';
-        $cclass    = isset( $instance['cclass'] ) ? esc_attr( $instance['cclass'] ) : '';
-        $slug    = isset( $instance['slug'] ) ? esc_attr( $instance['slug'] ) : '';
-        $number    = isset( $instance['number'] ) ? absint( $instance['number'] ) : 1;
+        $adCategory = isset( $instance['adCategory'] ) ? intval( esc_attr( $instance['adCategory'] ) ) : '';
+        $adAlignment    = isset( $instance['adAlignment'] ) ? esc_attr( $instance['adAlignment'] ) : '';
+        $adLimit    = isset( $instance['adLimit'] ) ? absint( $instance['adLimit'] ) : 1;
+        $postSlug    = isset( $instance['postSlug'] ) ? esc_attr( $instance['postSlug'] ) : '';
+        $className    = isset( $instance['className'] ) ? esc_attr( $instance['className'] ) : '';
+        $wrapper    = isset( $instance['wrapper'] ) ? absint( $instance['wrapper'] ) : 1;
 ?>
         <p><label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php _e( 'Title:', 'monetize-me' ); ?></label>
         <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo $title; ?>" /></p>
 
         <p>
-            <label for="<?php echo esc_attr( $this->get_field_id( 'stype' ) ); ?>"><?php _e( 'Sponsor Type:', 'monetize-me' ); ?></label>
+            <label for="<?php echo esc_attr( $this->get_field_id( 'adCategory' ) ); ?>">
+                <?php _e( 'Ad Category:', 'monetize-me' ); ?>
+            </label>
 
             <?php
             $args = array(
-                'taxonomy' => 'adsponsor',
-                'hide_empty' => false,
+                'taxonomy' => 'adcategory',
+                'hide_empty' => true,
             );
             $terms = get_terms ($args);
             $options = array();
 
             foreach($terms as $i => $row) {
-                $options[$row->slug] = $row->name;
+                $options[$row->term_id] = $row->name;
             }
 
-            $attr = 'name="'.esc_attr( $this->get_field_name( 'stype' ) ).'" id="'.esc_attr( $this->get_field_id( 'stype' ) ).'" class="widefat"';
-            echo msbd_draw_select_box($options, $attr, $stype);
+            $attr = 'name="'.esc_attr( $this->get_field_name( 'adCategory' ) ).'" id="'.esc_attr( $this->get_field_id( 'adCategory' ) ).'" class="widefat"';
+            echo msbd_draw_select_box( $options, $attr, $adCategory );
             ?>
         </p>
 
-        <p><label for="<?php echo esc_attr( $this->get_field_id( 'type' ) ); ?>"><?php _e( 'Type:', 'monetize-me' ); ?></label>
-        <?php
-        $options = array( "mix" => "Mix Ad", "img" => "Image Ad", "text" => "Text Ad", "link" => "Links Ad" );
-        $attr = 'name="'.esc_attr( $this->get_field_name( 'type' ) ).'" id="'.esc_attr( $this->get_field_id( 'type' ) ).'" class="widefat"';
-        echo msbd_draw_select_box($options, $attr, $type);
-        ?>
-        </p>
-
         <p>
-            <label for="<?php echo esc_attr( $this->get_field_id( 'width' ) ); ?>"><?php _e( 'Width:', 'monetize-me' ); ?></label>
+            <label for="<?php echo esc_attr( $this->get_field_id( 'adAlignment' ) ); ?>"><?php _e( 'Ad alignment:', 'monetize-me' ); ?></label>
+
             <?php
-            $args = array(
-                'taxonomy' => 'adwidth',
-                'hide_empty' => false,
+            $options = array(
+                'right-align'=>'Right Alignment', 'left-align'=>'Left Alignment', 'center-align'=>'Center Alignment',
             );
-            $terms = get_terms ($args);
-            $options = array();
 
-            foreach($terms as $i => $row) {
-                $options[$row->slug] = $row->name;
-            }
-
-            $attr = 'name="'.esc_attr( $this->get_field_name( 'width' ) ).'" id="'.esc_attr( $this->get_field_id( 'width' ) ).'" class="widefat"';
-            echo msbd_draw_select_box($options, $attr, $width);
+            $attr = 'name="'.esc_attr( $this->get_field_name( 'adAlignment' ) ).'" id="'.esc_attr( $this->get_field_id( 'adAlignment' ) ).'" class="widefat"';
+            echo msbd_draw_select_box($options, $attr, $adAlignment);
             ?>
         </p>
 
         <p>
-            <label for="<?php echo esc_attr( $this->get_field_id( 'height' ) ); ?>"><?php _e( 'Height:', 'monetize-me' ); ?></label>
+            <label for="<?php echo esc_attr( $this->get_field_id( 'wrapper' ) ); ?>"><?php _e( 'Use Wrapper:', 'monetize-me' ); ?></label>
 
             <?php
-            $args = array(
-                'taxonomy' => 'adheight',
-                'hide_empty' => false,
+            $options = array(
+                '1'=>'Yes', '0'=>'No',
             );
-            $terms = get_terms ($args);
-            $options = array();
 
-            foreach($terms as $i => $row) {
-                $options[$row->slug] = $row->name;
-            }
-
-            $attr = 'name="'.esc_attr( $this->get_field_name( 'height' ) ).'" id="'.esc_attr( $this->get_field_id( 'height' ) ).'" class="widefat"';
-            echo msbd_draw_select_box($options, $attr, $height);
+            $attr = 'name="'.esc_attr( $this->get_field_name( 'wrapper' ) ).'" id="'.esc_attr( $this->get_field_id( 'wrapper' ) ).'" class="widefat"';
+            echo msbd_draw_select_box($options, $attr, $wrapper);
             ?>
         </p>
 
         <p>
-            <label for="<?php echo esc_attr( $this->get_field_id( 'cclass' ) ); ?>"><?php _e( 'Ad alignment:', 'monetize-me' ); ?></label>
-
-            <?php
-            $options = array('center'=>'Center', 'left'=>'Left', 'right'=>'Right');
-
-            $attr = 'name="'.esc_attr( $this->get_field_name( 'cclass' ) ).'" id="'.esc_attr( $this->get_field_id( 'cclass' ) ).'" class="widefat"';
-            echo msbd_draw_select_box($options, $attr, $cclass);
-            ?>
+            <label for="<?php echo esc_attr( $this->get_field_id( 'className' ) ); ?>">
+                <?php _e( 'Extra CSS Class:', 'monetize-me' ); ?>
+            </label>
+            <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'className' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'className' ) ); ?>" type="text" value="<?php echo $className; ?>" />
         </p>
 
-
-        <p><label for="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>"><?php _e( 'Number of ads to show:', 'monetize-me' ); ?></label>
-        <input id="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'number' ) ); ?>" type="text" value="<?php echo esc_attr( $number ); ?>" size="3" /></p>
+        <p>
+            <label for="<?php echo esc_attr( $this->get_field_id( 'adLimit' ) ); ?>">
+                <?php _e( 'Ad Limit:', 'monetize-me' ); ?>
+            </label>
+            <input id="<?php echo esc_attr( $this->get_field_id( 'adLimit' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'adLimit' ) ); ?>" type="text" value="<?php echo esc_attr( $adLimit ); ?>" size="3" />
+        </p>
 
         <p>Or,</p>
 
-        <p><label for="<?php echo esc_attr( $this->get_field_id( 'slug' ) ); ?>"><?php _e( 'Slug:', 'monetize-me' ); ?></label>
-        <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'slug' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'slug' ) ); ?>" type="text" value="<?php echo $slug; ?>" /></p>
+        <p>
+            <label for="<?php echo esc_attr( $this->get_field_id( 'postSlug' ) ); ?>">
+                <?php _e( 'Ad Slug:', 'monetize-me' ); ?>
+            </label>
+            <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'postSlug' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'postSlug' ) ); ?>" type="text" value="<?php echo $postSlug; ?>" />
+        </p>
 <?php
     }
 }

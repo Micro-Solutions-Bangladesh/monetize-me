@@ -4,22 +4,53 @@
  * CSS for both Frontend+Backend.
  */
 
-.ads-section.center-align {
-    text-align: center;
-    margin-bottom: 15px;
+.monetize-me {
+    display: flex;
+    flex-direction: column;
+
+    .ad-wrapper {
+        margin-bottom: $gutter;
+    }
+
+    &.right-align {
+        float: right;
+
+        .ad-wrapper {
+            margin-left: $gutter;
+        }
+    }
+
+    &.center-align {
+        width: 100%;
+        text-align: center;
+
+        .ad-wrapper {
+
+        }        
+    }
+
+    &.left-align {
+        float: left;
+
+        .ad-wrapper {
+            margin-right: $gutter;
+        }        
+    }
 }
-.ads-section.center-align:after {
-    clear: both;
-    content: " ";
-    display: table;
-}
-.ads-section.right-align {
-    float: right;
-    margin-left: 15px;
-    margin-bottom: 10px;
-}
-.ads-section.left-align {
-    float: left;
-    margin-right: 15px;
-    margin-bottom: 10px;
+
+/**
+ * <= 575px
+ */
+ @media (max-width: $bpsdMax) {
+    .monetize-me {   
+        &.right-align {
+            width: 100%;
+            text-align: center;
+        }
+    
+        &.left-align {
+            width: 100%;
+            text-align: center;        
+        }
+    }
 }

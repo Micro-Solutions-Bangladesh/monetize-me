@@ -1,13 +1,22 @@
 <?php
 
-function get_ad_category_value_label_pairs() {
+/**
+ * 
+ */
+function get_ad_category_value_label_pairs( $emptySelectOption = true ) {
     $rs = array();
     $terms = get_terms(array(
         'taxonomy' => 'adcategory',
-        // 'hide_empty' => true,
+        'hide_empty' => true,
     ));
 
     foreach( $terms as $i => $row ) {
+        if( empty( $rs ) ) {
+            $rs[] = array(
+                "label" => "-- select --",
+                "value" => 0,
+            );
+        }
         $rs[] = array(
             "label" => $row->name,
             "value" => $row->term_id,
@@ -17,9 +26,90 @@ function get_ad_category_value_label_pairs() {
     return $rs;
 }
 
+/**
+ * 
+ */
+function monetize_me_gutenberg_serverside_handler($atts) {
+    return monetize_me_shortcode_mmps( $atts );
+}
 
-// function monetize_me_render_serverside_handler($adCategory, $sponsorType, $postSlug) {
-//     return "<p>adCategory: {$adCategory} == sponsorType: {$sponsorType} == postSlug: {$postSlug}</p>";
-// }
+/**
+ * 
+ */
+function monetize_me_shortcode_mmps( $atts ) {
+    global $wp;
 
+    $isWrapper = ( isset( $atts['isWrapper'] ) && ( $atts['isWrapper'] == 'true' || $atts['isWrapper'] == '1' )  ) ? true : false;
+
+    $limit = (intval($atts['limit']) > 0) ? intval($atts['limit']) : 1;
+    $adAlignment = isset( $atts['adAlignment'] ) ? $atts['adAlignment'] : '';
+    $postSlug = isset( $atts['postSlug'] ) ? $atts['postSlug'] : '';
+    $adCategory = isset( $atts['adCategory'] ) ? explode( ",", $atts['adCategory'] ) : array();
+
+    $className = isset( $atts['className'] ) ? $atts['className'] : ''; // Advanced class name
+
+    if( ! empty ( $className ) ) {
+        $adAlignment .= " " . $className;
+    }
+
+    $args = array(
+        'post_type' => 'ad',
+        'post_status' => 'publish',
+
+        'tax_query' => array(),
+
+        'posts_per_page' => $limit,
+        'orderby'        => 'rand',
+    );
+
+    if( !empty($postSlug) ) { //Query by Slug
+        $args['name'] = $postSlug;
+    } else {
+        // $args['tax_query']['relation'] = 'OR';
+
+        $args['tax_query'][] = array(
+            'taxonomy' => 'adcategory',
+            'field' => 'term_id',
+            'terms' => $adCategory,
+        );
+    }
+
+    $query = new WP_Query( $args );
+    $servable_ads = array();
+    $servable_ad_count = 0;
+
+    // The Loop
+    if ( $query->have_posts() ) {
+        while ( $query->have_posts() ) {
+            $query->the_post();
+            $servable_ad_count++;
+            
+            if( $isWrapper ) {
+                $servable_ads[] = "<div class=\"ad-wrapper\">" . get_the_content() . "</div>";
+            } else {
+                $servable_ads[] = get_the_content();
+            }
+
+            if ($servable_ad_count >= $limit) {
+                break;
+            }
+        }
+    }
+
+    $rs = "";
+
+    if( !empty( $servable_ads ) ) {
+        // if ( $isWrapper ) {
+            $rs = '<div class="monetize-me'. msbd_asf( $adAlignment ).'">'.implode("", $servable_ads).'</div>';
+        // } else {
+        //     $rs = implode("", $servable_ads);
+        // }
+    } else {
+        $rs = "<div class=\"monetize-me center-align\">Ad Setting Require A Change!</div>";
+    }
+
+    wp_reset_postdata();
+
+    return $rs;
+}
 
