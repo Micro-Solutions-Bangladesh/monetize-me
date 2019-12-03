@@ -1,13 +1,12 @@
 <?php
-
 /**
  * 
  */
-function get_ad_category_value_label_pairs( $emptySelectOption = true ) {
+function monetize_me_taxonomy_name_id_pairs( $tax, $emptySelectOption = true ) {
     $rs = array();
     $terms = get_terms(array(
-        'taxonomy' => 'adcategory',
-        'hide_empty' => true,
+        'taxonomy' => $tax,
+        'hide_empty' => $emptySelectOption,
     ));
 
     foreach( $terms as $i => $row ) {
@@ -29,6 +28,22 @@ function get_ad_category_value_label_pairs( $emptySelectOption = true ) {
 /**
  * 
  */
+function monetize_me_ad_category_pairs( $emptySelectOption = true ) {
+    return monetize_me_taxonomy_name_id_pairs( 'adcategory', $emptySelectOption );
+}
+
+/**
+ * 
+ */
+function monetize_me_ad_sponsor_pairs( $emptySelectOption = true ) {
+    return monetize_me_taxonomy_name_id_pairs( 'adsponsor', $emptySelectOption );
+}
+
+
+
+/**
+ * 
+ */
 function monetize_me_gutenberg_serverside_handler($atts) {
     return monetize_me_shortcode_mmps( $atts );
 }
@@ -45,6 +60,8 @@ function monetize_me_shortcode_mmps( $atts ) {
     $adAlignment = isset( $atts['adAlignment'] ) ? $atts['adAlignment'] : '';
     $postSlug = isset( $atts['postSlug'] ) ? $atts['postSlug'] : '';
     $adCategory = isset( $atts['adCategory'] ) ? explode( ",", $atts['adCategory'] ) : array();
+    
+    $adSponsor = ( isset( $atts['adSponsor'] ) && ( $atts['adSponsor'] !== '0' ) ) ? explode( ",", $atts['adSponsor'] ) : array();
 
     $className = isset( $atts['className'] ) ? $atts['className'] : ''; // Advanced class name
 
@@ -65,13 +82,21 @@ function monetize_me_shortcode_mmps( $atts ) {
     if( !empty($postSlug) ) { //Query by Slug
         $args['name'] = $postSlug;
     } else {
-        // $args['tax_query']['relation'] = 'OR';
-
         $args['tax_query'][] = array(
             'taxonomy' => 'adcategory',
             'field' => 'term_id',
             'terms' => $adCategory,
         );
+
+        if ( ! empty( $adSponsor ) ) {
+            $args['tax_query']['relation'] = 'AND';
+
+            $args['tax_query'][] = array(
+                'taxonomy' => 'adsponsor',
+                'field' => 'term_id',
+                'terms' => $adSponsor,
+            );
+        }
     }
 
     $query = new WP_Query( $args );
@@ -97,15 +122,16 @@ function monetize_me_shortcode_mmps( $atts ) {
     }
 
     $rs = "";
+    $test = '';// print_r($adSponsor, true);
 
     if( !empty( $servable_ads ) ) {
         // if ( $isWrapper ) {
-            $rs = '<div class="monetize-me'. msbd_asf( $adAlignment ).'">'.implode("", $servable_ads).'</div>';
+            $rs = '<div class="monetize-me'. msbd_asf( $adAlignment ).'">' . implode("", $servable_ads) . "{$test}</div>";
         // } else {
         //     $rs = implode("", $servable_ads);
         // }
     } else {
-        $rs = "<div class=\"monetize-me center-align\">Ad Setting Require A Change!</div>";
+        $rs = "<div class=\"monetize-me center-align\">Ad Setting Require A Change!{$test}</div>";
     }
 
     wp_reset_postdata();

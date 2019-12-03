@@ -53,6 +53,10 @@ registerBlockType( 'monetize-me/shortcode-mmps-to-block', {
 			type: 'string',
 			default: '0',
 		},
+		adSponsor: {
+			type: 'string',
+			default: '0',
+		},
 		postSlug: {
 			type: 'string',
 			default: '',
@@ -78,7 +82,7 @@ registerBlockType( 'monetize-me/shortcode-mmps-to-block', {
 	 */
 	edit: ( props ) => {
 		const { setAttributes, attributes } = props;
-		const { adAlignment, adCategory, limit, postSlug, isWrapper } = attributes;
+		const { adAlignment, adCategory, adSponsor, limit, postSlug, isWrapper } = attributes;
 
 		return (
 			<Fragment>
@@ -95,10 +99,17 @@ registerBlockType( 'monetize-me/shortcode-mmps-to-block', {
 						/>
 
 						<SelectControl
-							label={ __( 'Ad Category' ) }
+							label={ __( 'Ad Category **' ) }
 							value={ adCategory }
 							options={ mmpConfigs.adCategoryValueLabelPairs }
 							onChange={ adCat => setAttributes( { adCategory: adCat } ) }
+						/>
+
+						<SelectControl
+							label={ __( 'Ad Sponsor' ) }
+							value={ adSponsor }
+							options={ mmpConfigs.adSponsorValueLabelPairs }
+							onChange={ adSpon => setAttributes( { adSponsor: adSpon } ) }
 						/>
 
 						<TextControl
@@ -108,7 +119,7 @@ registerBlockType( 'monetize-me/shortcode-mmps-to-block', {
 						/>
 
 						<TextControl
-							label="Ad Limit"
+							label="Ad Limit **"
 							value={ limit }
 							onChange={ ( limitNo ) => setAttributes( { limit: limitNo } ) }
 						/>
@@ -122,10 +133,10 @@ registerBlockType( 'monetize-me/shortcode-mmps-to-block', {
 					</PanelBody>
 				</InspectorControls>
 
-                <ServerSideRender
-                    block="monetize-me/shortcode-mmps-to-block"
-                    attributes={ attributes }
-                />
+				<ServerSideRender
+					block="monetize-me/shortcode-mmps-to-block"
+					attributes={ attributes }
+				/>
 			</Fragment>
 		);
 	},

@@ -4,8 +4,8 @@ Author URI: https://mcqacademy.com/author/shahalom/
 Contributors: shahalom
 Donate link: http://microsolutionsbd.com/donate/
 Tags: monetize website, Ad Management, manage adsense script, manage monetize script, monetize me
-Requires at least: 4.0
-Tested up to: 4.8.2
+Requires at least: 5.0
+Tested up to: 5.3
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -48,6 +48,8 @@ Standard installation required.
 3. You will find a menu item called 'Ads' in the admin left sidebar.
 
 == Changelog ==
+= 1.0.1 =
+* Revert back the ad sponsor taxonomy
 
 = 1.0.0 =
 * Recreating the plugin by deleting `Add Width` and `Add Height` taxonomy

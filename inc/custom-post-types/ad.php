@@ -55,7 +55,7 @@ class MCQAC_Ad {
             'menu_position' => 5,
             'menu_icon' => 'dashicons-star-filled',
             'supports' => array( 'title', 'editor', 'custom-fields' ),
-            'taxonomies' => array( 'adcategory' )
+            'taxonomies' => array( 'adcategory', 'adsponsor' )
         );
 
         register_post_type($posttype, $args);
