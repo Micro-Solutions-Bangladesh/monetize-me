@@ -5,7 +5,7 @@
  * Description: Monetize Me plugin will help webmaster to manage monetize scripts and display using shortcodes and widgets.
  * Author: microsolutions, shahalom
  * Author URI: https://MicroSolutionsBD.com/
- * Version: 1.0.0
+ * Version: 1.0.1
  * License: GPL2+
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
  *
@@ -25,6 +25,7 @@ require_once('inc/shortcodes.php');
 
 require_once('inc/custom-post-types/ad.php');
 require_once('inc/custom-taxonomies/adcategory.php');
+require_once('inc/custom-taxonomies/adsponsor.php');
 
 require_once('inc/functions.php');
 

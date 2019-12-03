@@ -67,7 +67,8 @@ function monetize_me_editor_assets() { // phpcs:ignore
             'siteTitle' => get_bloginfo("name"),
             'siteTagline' => get_bloginfo("description"),
             'siteUrl' => esc_url( get_site_url() ),
-            'adCategoryValueLabelPairs' => get_ad_category_value_label_pairs(),
+            'adCategoryValueLabelPairs' => monetize_me_ad_category_pairs(),
+            'adSponsorValueLabelPairs' => monetize_me_ad_sponsor_pairs(),
 		]
     );
     
@@ -99,6 +100,10 @@ function monetize_me_register_block_type() { // phpcs:ignore
                     'type' => 'string',
                 ),
                 'adCategory' => array(
+                    'default' => '0',
+                    'type' => 'string',
+                ),
+                'adSponsor' => array(
                     'default' => '0',
                     'type' => 'string',
                 ),
