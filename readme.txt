@@ -1,116 +1,162 @@
 === Monetize Me ===
-Author: Micro Solutions Bangladesh
-Author URI: https://mcqacademy.com/author/shahalom/
-Contributors: shahalom
-Donate link: http://microsolutionsbd.com/donate/
-Tags: monetize website, Ad Management, manage adsense script, manage monetize script, monetize me
-Requires at least: 5.0
-Tested up to: 5.3
-Stable tag: trunk
+Contributors: shahalom, microsolutions
+Tags: ads, adsense, advertising, ad manager, banner ads, multisite, monetization
+Requires at least: 5.8
+Tested up to: 6.9
+Requires PHP: 7.4
+Stable tag: 2.0.1
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Monetize Me plugin will help webmaster to manage monetize scripts and display using shortcodes and widgets.
+A flexible advertisement management plugin with Multisite support, including centralized taxonomy synchronization across subsites.
 
 == Description ==
-Monetize Me plugin will help webmaster to manage monetize scripts. The plugin also offers shortcode ([mmps]) and widget (Show Advertisment) to enable webmaster  display the advertisment in website.
 
-Pleas use "Advertisements Sponsor", "Advertisements Width", and "Advertisements Height" taxonomies to categories you monetize scripts. Then use this information in the shortcode to display your required monetize scripts.
+**Monetize Me** is a lightweight and developer-friendly advertisement management plugin for WordPress. It allows you to manage ads, organize them using taxonomies, and display them dynamically using shortcodes, PHP functions, or Gutenberg blocks.
 
-The shortcode [mmps] offers the following attributes to manage your scripts:
+The plugin is optimized for **WordPress Multisite**, enabling Network Administrators to centrally manage and synchronize taxonomy terms (`adcategory`, `adsponsor`) across subsites.
 
-    1. id: comes from the slug of the script post. with this 'id' attribute all other attribute will not work. because with this 'id' attribute you are telling an specific ad that you have created.
+= Core Features =
 
-    2. width: comes from the "Advertisements Width" taxonomy. Width of the advertisment need to be mention in the 'width' attribute. default value for 'width' attribute is 'responsive'.
+* Custom Post Type for Ads
+* Taxonomies:
+  - Ad Categories (`adcategory`)
+  - Ad Sponsors (`adsponsor`)
+* Display ads using:
+  - Shortcodes
+  - PHP functions
+  - Gutenberg block
+* Random ad display by category/group
+* Lightweight and extensible architecture
 
-    3. height: comes from the "Advertisements Height" taxonomy. Height of the advertisment need to be mention in the 'width' attribute. default value for 'height' attribute is 'responsive'.
+= Multisite Features =
 
-    4. class: left, right, and center are allowed values for the 'class' attribute to mention the alignment of the advertisment. default value is 'left'.
+When network activated:
 
-    5. stype: comes from the "Advertisements Sponsor" taxonomy. stype need a slug of a sponsor. default is 'adsense'
-
-    6. type: comes from the "Ad Type" field of "General Setting" box. mix, link, text, img, feed, and article are allowed values for the 'type' attribute.
-
-    7. limit: how many ads to be serve matching required attribute. any mumber are allowed but 0.
-
-    8. wrapper: default value is 1 to wrap your advertisemet script in a div. use 0 to not use any html div wrapper.
-
-Hope the screenshots shows few good way - how to create monetization post and use those anywhere in the site using shortcode or widgets.
-
-
+* Dedicated Network Admin settings page
+* Copy taxonomy terms across subsites
+* Bulk subsite selection
+* Duplicate-safe copying (slug-based detection)
+* Summary report (copied / skipped / failed)
 
 == Installation ==
-Standard installation required.
 
-1. After downloading the 'monetize-me.zip' file extract/uncompress it.
-2. Upload the Downloaded uncompress package to the '/wp-content/plugins/' directory.
-2. Activate the plugin using the Plugin Tab in your Wordpress Dashboard.
-3. You will find a menu item called 'Ads' in the admin left sidebar.
+1. Upload the plugin to `/wp-content/plugins/`
+2. Activate the plugin through the Plugins menu
+
+= Multisite Installation =
+
+1. Network Activate the plugin
+2. Go to **Network Admin → Monetize Me**
+3. Use the available tools
+
+== Frequently Asked Questions ==
+
+= Does this plugin support WordPress Multisite? =
+Yes. When network activated, it provides a Network Admin panel for centralized control.
+
+= Where are the Network settings? =
+Go to: Network Admin → Monetize Me
+
+= Can I copy taxonomy terms between subsites? =
+Yes. You can copy all terms of `adcategory` and `adsponsor` from one site to selected subsites.
+
+= What happens if a term already exists? =
+Terms are matched by slug. Existing terms are skipped automatically.
+
+= Can I copy to multiple subsites at once? =
+Yes.
+
+= Who can access this feature? =
+Only Network Administrators.
+
+= Will existing terms be overwritten? =
+No. Existing terms are never modified.
+
+= Does it copy ads as well? =
+No. Only taxonomy terms are copied.
+
+== Screenshots ==
+
+1. Ad management interface
+2. Taxonomy management (Categories & Sponsors)
+3. Network Admin settings page
+4. Term copy interface
+
+== Usage ==
+
+= Shortcode Usage =
+
+Display ad by ID:
+
+[monetize_me id="123"]
+
+Display ads by category:
+
+[monetize_me adcategory="sidebar"]
+
+Display multiple ads:
+
+[monetize_me adcategory="homepage" limit="3"]
+
+= PHP Usage =
+
+<?php echo monetize_me_display_ad( [ 'adcategory' => 'homepage' ] ); ?>
+
+= Multisite Term Synchronization =
+
+1. Go to **Network Admin → Monetize Me**
+2. Select Source Site
+3. Select Destination Subsites
+4. Click "Copy Terms"
+
+The plugin will:
+
+* Copy `adcategory` terms
+* Copy `adsponsor` terms
+* Skip duplicates by slug
 
 == Changelog ==
+
+= 2.0.1 =
+* NEW: Network Admin settings page for Multisite environments.
+* NEW: Copy taxonomy terms (`adcategory`, `adsponsor`) from a source site to selected subsites.
+* NEW: Bulk subsite selection for term synchronization.
+* IMPROVED: Duplicate detection using term slug (skip existing terms).
+* IMPROVED: Operation summary showing copied, skipped, and failed counts.
+* SECURITY: Restrict term synchronization tools to Network Admin only.
+
+= 2.0.0 =
+* Added a centralized Ad_Service class used by shortcode, widget, block, and renderer layers
+* Added cache-aware ad queries with automatic cache purging on ad save, delete, and taxonomy changes
+* Added public helper API functions: monetize_me_get_ad(), monetize_me_get_random_ads(), monetize_me_render_ad(), mm_get_ad(), mm_get_random_ad(), and mm_render_ad()
+* Added internal filters and actions for query arguments and rendered output
+* Preserved backward compatibility for existing shortcode, widget, block, and Renderer::render() usage
+
+= 1.9.0 =
+* Major internal refactor for maintainability
+* Added modern plugin bootstrap structure
+* Removed runtime rewrite flushing
+* Improved shortcode normalization and rendering
+* Fixed widget slug handling bug
+* Modernized block registration structure
+* Added safer uninstall behavior
+* Updated readme and repository packaging
+
 = 1.0.1 =
 * Revert back the ad sponsor taxonomy
 
 = 1.0.0 =
-* Recreating the plugin by deleting `Add Width` and `Add Height` taxonomy
-* Creating new taxonomy `Add Category`
-* Adding block for gutenberg
-
-= 0.0.9 =
-* Add two more options for the advertisment type
-
-= 0.0.8 =
-* Disable Rich Editor for Ad Post Type
-
-= 0.0.7 =
-* Display specific number of ads mentioned in the widget or in the limit attribute of shortcode
-
-= 0.0.6 =
-* Stable plugin released
+* Recreated the plugin by removing legacy width and height taxonomies
+* Added Ad Category taxonomy
+* Added Gutenberg block support
 
 == Upgrade Notice ==
-N/A
 
-== Frequently Asked Questions ==
+= 2.0.1 =
+Adds Multisite Network Admin tools and taxonomy synchronization. Recommended update for all multisite installations.
 
-= Where can I find the admin page of the plugin? =
-A menu item (called "Ads") appears on the left sidebar in admin. You will also get different links to manage ads script, ad width, ad height, and ad sponsors.
+== License ==
 
-= What is the shortcode offered by this plugin =
-This plugin offered only shortcode called [mmps] with few attributes. The shortcode attributes are:
+This plugin is licensed under the GPLv2 or later.
 
-    1. id: slug of any ad can be provide in the id attribute. with this 'id' attribute all other attribute will not work. because with this 'id' attribute you are telling an specific ad that you have created.
-
-    2. width: width of the advertisment need to be mention in the 'width' attribute. default value for 'width' attribute is 'responsive'.
-
-    3. height: height of the advertisment need to be mention in the 'width' attribute. default value for 'height' attribute is 'responsive'.
-
-    4. class: left, right, and center are allowed values for the 'class' attribute to mention the alignment of the advertisment. default value is 'left'.
-
-    5. stype: stype need a slug of a sponsor. default is 'adsense'
-
-    6. type: mix, link, text, img, feed, and article are allowed values for the 'type' attribute.
-
-    7. limit: how many ads to be serve matching required attribute. any mumber are allowed but 0.
-
-    8. wrapper: default value is 1 to wrap your advertisemet script in a div. use 0 to not use any html div wrapper.
-
-= Do I need a backup of my website to use this plugin? =
-It's not mandatory task because we do not make any update or delete operation out of any functionality for this plugin.
-
-= Does this plugin work with all wordpress versions? =
-This version works with WordPress 4.0 and better. If you're using an older version, please check for the legacy releases.
-
-= My question isn't answered here =
-Somehow we overlooked your question, We apologize for this. Please visit contact us page of <a href="http://microsolutionsbd.com/contact-us/">Micro Solution Bangladesh</a> for your query.
-
-= What's new in the latest version? =
-Please check the changelog in the readme.txt file exist in the plugin folder.
-
-== Screenshots ==
-1.use-scortcode-in-content.png
-2.screenshot-2.png
-3.screenshot-3.png
-4.screenshot-4.png
-5.screenshot-5.png
-6.screenshot-6.png

@@ -1,12 +1,14 @@
 {
   "name": "monetize-me",
-  "version": "1.0.0",
+  "version": "2.0.0",
+  "description": "Monetize Me block assets",
   "scripts": {
-    "start": "cgb-scripts start",
-    "build": "cgb-scripts build",
-    "eject": "cgb-scripts eject"
+    "start": "wp-scripts start",
+    "build": "wp-scripts build",
+    "lint:js": "wp-scripts lint-js",
+    "lint:css": "wp-scripts lint-style"
   },
-  "dependencies": {
-    "cgb-scripts": "1.22.0"
+  "devDependencies": {
+    "@wordpress/scripts": "^30.8.0"
   }
 }

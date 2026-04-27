@@ -1,0 +1,10 @@
+.monetize-me-block-editor-preview {
+	border: 1px solid #dcdcde;
+	padding: 16px;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.monetize-me-block-editor-preview ul {
+	margin: 12px 0 0 18px;
+}

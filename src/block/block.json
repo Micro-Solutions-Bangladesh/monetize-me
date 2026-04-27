@@ -1,0 +1,47 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "monetize-me/ad",
+  "version": "2.0.0",
+  "title": "Advertisement",
+  "category": "widgets",
+  "icon": "megaphone",
+  "description": "Display an advertisement by slug or taxonomy filters.",
+  "keywords": ["ad", "advertisement", "banner", "monetize"],
+  "textdomain": "monetize-me",
+  "editorScript": "file:../../build/index.js",
+  "style": "file:../../build/index.css",
+  "attributes": {
+    "postSlug": {
+      "type": "string",
+      "default": ""
+    },
+    "adCategory": {
+      "type": "string",
+      "default": ""
+    },
+    "adSponsor": {
+      "type": "string",
+      "default": ""
+    },
+    "limit": {
+      "type": "number",
+      "default": 1
+    },
+    "isWrapper": {
+      "type": "boolean",
+      "default": true
+    },
+    "adAlignment": {
+      "type": "string",
+      "default": "center-align"
+    },
+    "className": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "supports": {
+    "html": false
+  }
+}

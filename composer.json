@@ -1,0 +1,7 @@
+{
+  "name": "shahalom/monetize-me",
+  "description": "Manage advertisement scripts as Ads and display them via shortcode, widget, or block.",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "require": {}
+}
