@@ -32,22 +32,22 @@ Monetize Me is a flexible WordPress plugin to manage and display advertisements 
 
 ##### Supported attributes:
 
-- *id* 
+- *id*: 
   Display one specific ad by post slug.
 
-- *adcategory* 
+- *adcategory*: 
   Either a single slug of an ad Category or CSV IDs of Ad Category.
 
-- *adsponsor* 
+- *adsponsor*: 
   One or more Ad Sponsor term IDs separated by commas.
 
-- *limit* 
+- *limit*: 
   Number of ads to display. Default: 1
 
-- *wrapper* 
+- *wrapper*: 
   Wrap each ad in <div class="ad-wrapper">. Accepts 1 or 0. Default: 1
 
-- *class* 
+- *class*: 
   Extra alignment or styling class for the outer wrapper.
 
 = Shortcode examples =
