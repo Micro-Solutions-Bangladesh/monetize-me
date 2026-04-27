@@ -26,7 +26,15 @@ Monetize Me is a flexible WordPress plugin to manage and display advertisements 
 
 ### Shortcode
 
-[monetize_me id="123"]
+```[monetize_me id="123"]```
+
+#### Display ads by category:
+
+```[monetize_me adcategory="sidebar"]```
+
+#### Display multiple ads:
+
+```[monetize_me adcategory="homepage" limit="3"]```
 
 ### Developer
 
@@ -36,16 +44,6 @@ echo monetize_me_get_ad([
     'limit' => 1
 ]);
 ```
-
----
-
-## 📝 Changelog
-
-### 2.0.2
-- Copy ad CPT across subsites
-- Skip duplicate slugs
-- Copy meta and taxonomy
-
 
 ---
 
