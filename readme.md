@@ -1,17 +1,5 @@
 # Monetize Me
 
-**Contributors:** microsolutions, shahalom  
-**Tags:** ads, adsense, advertising, multisite, monetization  
-**Requires at least:** 6.0  
-**Tested up to:** 6.9  
-**Stable tag:** 2.0.2  
-**License:** GPLv2 or later  
-**License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
-
----
-
-## 📌 Description
-
 Monetize Me is a flexible WordPress plugin to manage and display advertisements across single-site and multisite setups.
 
 ---
@@ -58,12 +46,6 @@ echo monetize_me_get_ad([
 - Skip duplicate slugs
 - Copy meta and taxonomy
 
----
-
-## 👨‍💻 Author
-
-Shah Alom  
-https://microsolutionsbd.com/
 
 ---
 
